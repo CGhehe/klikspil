@@ -55,12 +55,6 @@ function clickPoint() {
    document.querySelector("#point1_sprite").classList.add("zoom_out");
    document.querySelector("#point1_container").addEventListener("animationend", pointGone);
    incrementPoints();
-   console.log("Click point");
-   document.querySelector("#point1_container").removeEventListener("click", clickPoint);
-   document.querySelector("#point1_container").classList.add("paused");
-   document.querySelector("#point1_sprite").classList.add("zoom_out");
-   document.querySelector("#point1_container").addEventListener("animationend", pointGone);
-   incrementPoints();
 }
 function clickPoint2() {
    console.log("Click point2");
@@ -79,8 +73,31 @@ function clickPoint3() {
    incrementPoints();
 }
 
+function clickPoint4() {
+   console.log("Click point4");
+   document.querySelector("#point4_container").removeEventListener("click", clickPoint4);
+   document.querySelector("#point4_container").classList.add("paused");
+   document.querySelector("#point4_sprite").classList.add("zoom_out");
+   document.querySelector("#point4_container").addEventListener("animationend", pointGone);
+   incrementPoints();
+}
+
+function point4Gone() {
+   document.querySelector("#point4_container").removeEventListener("animationend", pointGone);
+   incrementPoints();
+}
+
+document.querySelector("#point4_sprite").classList.remove("zoom_out");
+document.querySelector("#point4_container").classList.remove("paused");
+document.querySelector("#point4_container").classList.remove("falling");
+document.querySelector("#point4_container").offsetWidth;
+document.querySelector("#point4_container").classList.add("falling");
+document.querySelector("#point4_container").addEventListener("click", clickPoint4);
+incrementPoints();
+
 function pointGone() {
    document.querySelector("#point1_container").removeEventListener("animationend", pointGone);
+   incrementPoints();
 }
 
 document.querySelector("#point1_sprite").classList.remove("zoom_out");
@@ -88,8 +105,8 @@ document.querySelector("#point1_container").classList.remove("paused");
 document.querySelector("#point1_container").classList.remove("falling");
 document.querySelector("#point1_container").offsetWidth;
 document.querySelector("#point1_container").classList.add("falling");
-
 document.querySelector("#point1_container").addEventListener("click", clickPoint);
+
 
 function point2Gone() {
    document.querySelector("#point2_container").removeEventListener("animationend", point2Gone);
@@ -100,7 +117,6 @@ document.querySelector("#point2_container").classList.remove("paused");
 document.querySelector("#point2_container").classList.remove("falling");
 document.querySelector("#point2_container").offsetWidth;
 document.querySelector("#point2_container").classList.add("faling");
-
 document.querySelector("#point2_container").addEventListener("click", clickPoint2);
 
 function point3Gone() {
@@ -112,7 +128,6 @@ document.querySelector("#point3_container").classList.remove("paused");
 document.querySelector("#point3_container").classList.remove("falling");
 document.querySelector("#point3_container").offsetWidth;
 document.querySelector("#point3_container").classList.add("faling");
-
 document.querySelector("#point3_container").addEventListener("click", clickPoint3);
 
 function clickBomb() {
@@ -142,7 +157,6 @@ function clickHeart() {
    document.querySelector("#heart_container").removeEventListener("click", clickHeart);
    document.querySelector("#heart_container").classList.add("paused");
    document.querySelector("#heart_sprite").classList.add("zoom_in");
-
    document.querySelector("#heart_container").addEventListener("animationend", heartGone);
 
    if (lives < 3) {
