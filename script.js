@@ -5,11 +5,85 @@ window.addEventListener("load", ready);
 let points = 0;
 let lives = 0;
 
+
+
+function start() {
+  console.log("JavaScript kører");
+
+  points = 0;
+  lives = 3;
+
+  resetLives();
+  resetPoints();
+  showGameScreen();
+  startTimer();
+  startAllAnimations();
+
+
+  document.querySelector("#start").classList.add("hidden");
+  document.querySelector("#game_over").classList.add("hidden");
+  document.querySelector("#level_complete").classList.add("hidden");
+
+  document.querySelector("#point1_container").classList.add("falling");
+  document.querySelector("#point2_container").classList.add("falling");
+  document.querySelector("#point3_container").classList.add("falling");
+  document.querySelector("#bomb_container").classList.add("falling");
+  document.querySelector("#heart_container").classList.add("falling");
+
+  document;
+  document
+    .querySelector("#point1_container")
+    .addEventListener("click", clickPoint);
+  document;
+  document
+    .querySelector("#point2_container")
+    .addEventListener("click", clickPoint2);
+  document;
+  document
+    .querySelector("#point3_container")
+    .addEventListener("click", clickPoint3);
+  document
+    .querySelector("#bomb_container")
+    .addEventListener("click", clickBomb);
+  document;
+
+  document
+    .querySelector("#point1_container")
+    .addEventListener("animationiteration", pRestart);
+  document
+    .querySelector("#point2_container")
+    .addEventListener("animationiteration", pRestart);
+  document
+    .querySelector("#point3_container")
+    .addEventListener("animationiteration", pRestart);
+  document
+    .querySelector("#bomb_container")
+    .addEventListener("animationiteration", pRestart);
+  document
+    .querySelector("#heart_container")
+    .addEventListener("animationiteration", pRestart);
+}
+
+function startAllAnimations() {
+  document.querySelector("#point1_container").classList.add("falling");
+  document.querySelector("#point2_container").classList.add("falling");
+  document.querySelector("#point3_container").classList.add("falling");
+  document.querySelector("#bomb_container").classList.add("falling");
+  document.querySelector("#heart_container").classList.add("falling");
+
+  document.querySelector("#point1_container").classList.add("position1");
+  document.querySelector("#point2_container").classList.add("position2");
+  document.querySelector("#point3_container").classList.add("position3");
+  document.querySelector("#bomb_container").classList.add("position4");
+  document.querySelector("#heart_container").classList.add("position5");
+}
+
 function ready() {
   console.log("JavaScript Kører");
   document.querySelector("#btn_start").addEventListener("click", start);
-  document.querySelector("#btn_restart").addEventListener("click", start);
   document.querySelector("#btn_go_to_start").addEventListener("click", start);
+  document.querySelector("#btn_replay").addEventListener("click", start);
+  document.querySelector("#btn_level_complete").addEventListener("click", start);
 }
 
 function showGameScreen() {
@@ -38,90 +112,6 @@ function resetLives() {
 function resetPoints() {
   points = 0;
   displayPoints();
-}
-
-function start() {
-  console.log("JavaScript kører");
-
-  points = 0;
-  lives = 3;
-
-  resetLives();
-  resetPoints();
-  showGameScreen();
-  startTimer();
-
-  document.querySelector("#start").classList.add("hidden");
-  document.querySelector("#game_over").classList.add("hidden");
-  document.querySelector("#level_complete").classList.add("hidden");
-
-  document.querySelector("#point1_container").classList.add("falling");
-  document.querySelector("#point2_container").classList.add("falling");
-  document.querySelector("#point3_container").classList.add("falling");
-  document.querySelector("#bomb_container").classList.add("falling");
-  document.querySelector("#heart_container").classList.add("falling");
-  //    document.querySelector("#point1_container").classList.add("falling");
-  //    document.querySelector("#point2_container").classList.add("falling");
-  //    document.querySelector("#point3_container").classList.add("falling");
-  //    document.querySelector("#bomb_container").classList.add("falling");
-  //    document.querySelector("#heart_container").classList.add("falling");
-
-  document;
-  document
-    .querySelector("#point1_container")
-    .addEventListener("click", clickPoint);
-  document;
-  document
-    .querySelector("#point2_container")
-    .addEventListener("click", clickPoint2);
-  document;
-  document
-    .querySelector("#point3_container")
-    .addEventListener("click", clickPoint3);
-  document
-    .querySelector("#bomb_container")
-    .addEventListener("click", clickBomb);
-  document;
-  points = 0;
-  lives = 3;
-
-  document.querySelector("#point1_container").classList.add("falling");
-  document.querySelector("#point2_container").classList.add("falling");
-  document.querySelector("#point3_container").classList.add("falling");
-  document.querySelector("#bomb_container").classList.add("falling");
-  document.querySelector("#heart_container").classList.add("falling");
-
-  document
-    .querySelector("#point1_container")
-    .addEventListener("click", clickPoint);
-  document
-    .querySelector("#point2_container")
-    .addEventListener("click", clickPoint2);
-  document
-    .querySelector("#point3_container")
-    .addEventListener("click", clickPoint3);
-  document
-    .querySelector("#bomb_container")
-    .addEventListener("click", clickBomb);
-  document
-    .querySelector("#heart_container")
-    .addEventListener("click", clickHeart);
-
-  document
-    .querySelector("#point1_container")
-    .addEventListener("animationiteration", pRestart);
-  document
-    .querySelector("#point2_container")
-    .addEventListener("animationiteration", pRestart);
-  document
-    .querySelector("#point3_container")
-    .addEventListener("animationiteration", pRestart);
-  document
-    .querySelector("#bomb_container")
-    .addEventListener("animationiteration", pRestart);
-  document
-    .querySelector("#heart_container")
-    .addEventListener("animationiteration", pRestart);
 }
 
 function clickPoint() {
@@ -277,7 +267,7 @@ function displayPoints() {
 }
 
 function decrementLives() {
-  console.log("Mist et liv");
+  console.log("Mist liv");
   if (lives === 0) {
     gameOver();
   }
@@ -287,7 +277,7 @@ function decrementLives() {
 }
 
 function incrementLives() {
-  console.log("Få et liv");
+  console.log("Få liv");
   lives++;
   showIncrementedLives();
 }
@@ -305,7 +295,6 @@ function showIncrementedLives() {
 function gameOver() {
   console.log("Game Over");
   document.querySelector("#game_over").classList.remove("hidden");
-  document.querySelector("#btn_retry").addEventListener("click", start);
   document.querySelector("#btn_return").addEventListener("click", start);
   stop();
 }
@@ -313,12 +302,13 @@ function gameOver() {
 function levelComplete() {
   console.log("Level Complete");
   document.querySelector("#level_complete").classList.remove("hidden");
-  document.querySelector("btn_retry").addEventListener("click", start);
-  document.querySelector("#btn_return").addEventListener("click", start);
+  document.querySelector("#btn_retry").addEventListener("click", start);
   stop();
 }
 
+
 function stop() {
+  isGameRunning = false;
   document.querySelector("#point1_container").classList.remove("falling");
   document.querySelector("#point2_container").classList.remove("falling");
   document.querySelector("#point3_container").classList.remove("falling");
@@ -340,6 +330,8 @@ function stop() {
   document
     .querySelector("#heart_container")
     .removeEventListener("click", clickHeart);
+
+  document.querySelector("#time_sprite").classList.remove("shrink");
 }
 
 function pRestart() {
@@ -376,11 +368,4 @@ function timeIsUp() {
   } else {
     gameOver();
   }
-}
-
-function startTimer() {
-  document.querySelector("#time_sprite").classList.add("shrink");
-  document
-    .querySelector("#time_sprite")
-    .addEventListener("animationend", timeIsUp);
 }
