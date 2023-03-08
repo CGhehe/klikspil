@@ -58,8 +58,12 @@ function startGame() {
   showGameScreen();
 
   // Start baggrundsmusik
+  document.querySelector("#sound_baggrund").play();
   // start alle animationer
   startAllAnimations();
+
+  // start timer
+  startTimer();
 
   // Registrer click
   document.querySelector("#point1_container").addEventListener("click", clickPoint);
@@ -114,6 +118,11 @@ function clickPoint() {
   // når forsvind-animation er færdig: pointGone
   point.addEventListener("animationend", pointGone);
 
+  // Genstart mønt-lyd
+  document.querySelector("#sound_yea_buddy").currentTime = 0;
+  // Afspil mønt-lyd
+  document.querySelector("#sound_yea_buddy").play();
+
   // Giv point
   incrementPoints();
 }
@@ -167,6 +176,11 @@ function clickBomb() {
     .querySelector("#bomb_container")
     .addEventListener("animationend", bombGone);
 
+  // Genstart bombe-lyd
+  document.querySelector("#sound_bomb").currentTime = 0;
+  // Afspil bombe-lyd
+  document.querySelector("#sound_bomb").play();
+
   decrementLives();
 }
 
@@ -195,6 +209,10 @@ function clickHeart() {
     .querySelector("#heart_container")
     .addEventListener("animationend", heartGone);
 
+    // Genstart success-lyd
+    document.querySelector("#sound_pump").currentTime = 0;
+    // Afspil success-lyd
+    document.querySelector("#sound_pump").play();
   if (lives < 3) {
     incrementLives();
   }
@@ -261,12 +279,14 @@ function gameOver() {
   console.log("Game Over");
   document.querySelector("#game_over").classList.remove("hidden");
   stopGame();
+  document.querySelector("#sound_gameover").play();
 }
 
 function levelComplete() {
   console.log("Level Complete");
   document.querySelector("#level_complete").classList.remove("hidden");
   stopGame();
+  document.querySelector("#sound_levelcomplete").play();
 }
 
 
@@ -284,6 +304,13 @@ function stopGame() {
   document.querySelector("#point3_container").removeEventListener("click", clickPoint);
   document.querySelector("#bomb_container").removeEventListener("click", clickBomb);
   document.querySelector("#heart_container").removeEventListener("click", clickHeart);
+
+  // Stop og nulstil lyde, fx baggrundsmusik
+  document.querySelector("#sound_baggrund").pause();
+  document.querySelector("#sound_baggrund").currentTime = 0;
+
+  // nulstil timer - fjern animationen fra timeren (fjern klassen shrink fra time_sprite)
+  document.querySelector("#time_sprite").classList.remove("shrink");
 }
 
 function pRestart() {
@@ -307,17 +334,19 @@ function pRestart() {
 }
 
 function startTimer() {
+  // Sæt timer-animationen (shrink) i gang ved at tilføje klassen shrink til time_sprite
   document.querySelector("#time_sprite").classList.add("shrink");
-  document
-    .querySelector("#time_sprite")
-    .addEventListener("animationend", timeIsUp);
+
+  // Tilføj en eventlistener som lytter efter at animationen er færdig (animationend) og kalder funktionen timeIsUp
+  document.querySelector("#time_sprite").addEventListener("animationend", timeIsUp);
 }
 
 function timeIsUp() {
-  console.log("times up");
+  console.log("Tiden er gået!");
+
   if (points >= 10) {
-    levelComplete();
+      levelComplete();
   } else {
-    gameOver();
+      gameOver();
   }
 }

@@ -277,30 +277,35 @@ button {
   animation-direction: alternate;
 }
 
+/* Timer */
+
 #time_board {
   position: relative;
 }
 
 #time_container {
-  width: 20vw;
-  height: 3vw;
-  top: 5vw;
-  left: 95vw;
-  border: 1px solid white;
+  position: absolute;
+  width: 100%;
+  aspect-ratio: 30/6;
+  border: 2px solid black;
+  background-color: rgba(208, 204, 204, 0.383);
+  top: 1.6vh;
+  right: 0.2vw;
 }
 
 #time_sprite {
-  width: 20vw;
-  height: 3vw;
-  top: 5vw;
-  left: 95vw;
-  transform-origin: 0% 100%;
-  background-color: brown;
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  background-color: limegreen;
+  transform-origin: right;
 }
+
+/* ------------ TIMER ANIMATIONER ------------ */
 
 .shrink {
   animation-name: shrink_kf;
-  animation-duration: 12s;
+  animation-duration: 15s;
   animation-iteration-count: 1;
   animation-timing-function: linear;
   animation-fill-mode: forwards;
@@ -308,14 +313,15 @@ button {
 
 @keyframes shrink_kf {
   0% {
-    scale: 1 1;
-    background-color: cornflowerblue;
+      scale: 1 1;
+      background-color: limegreen;
   }
   50% {
-    background-color: cornflowerblue;
+      background-color: rgb(255, 230, 0);
   }
   100% {
-    scale: 0 1;
-    background-color: cornflowerblue;
+      scale: 0 1;
+      background-color: red;
   }
 }
+
