@@ -96,11 +96,6 @@ function startAllAnimations() {
 
 
 
-
-
-
-
-
 function clickPoint() {
   console.log("Click point");
   // Brug en point variabel i stedet for gentagne querySelectors
