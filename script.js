@@ -5,102 +5,31 @@ window.addEventListener("load", ready);
 let points = 0;
 let lives = 0;
 
-
-
-function start() {
-  console.log("JavaScript kører");
-
-  points = 0;
-  lives = 3;
-
-  resetLives();
-  resetPoints();
-  showGameScreen();
-  startTimer();
-  startAllAnimations();
-
-
-  document.querySelector("#start").classList.add("hidden");
-  document.querySelector("#game_over").classList.add("hidden");
-  document.querySelector("#level_complete").classList.add("hidden");
-
-  document.querySelector("#point1_container").classList.add("falling");
-  document.querySelector("#point2_container").classList.add("falling");
-  document.querySelector("#point3_container").classList.add("falling");
-  document.querySelector("#bomb_container").classList.add("falling");
-  document.querySelector("#heart_container").classList.add("falling");
-
-  document;
-  document
-    .querySelector("#point1_container")
-    .addEventListener("click", clickPoint);
-  document;
-  document
-    .querySelector("#point2_container")
-    .addEventListener("click", clickPoint2);
-  document;
-  document
-    .querySelector("#point3_container")
-    .addEventListener("click", clickPoint3);
-  document
-    .querySelector("#bomb_container")
-    .addEventListener("click", clickBomb);
-  document;
-
-  document
-    .querySelector("#point1_container")
-    .addEventListener("animationiteration", pRestart);
-  document
-    .querySelector("#point2_container")
-    .addEventListener("animationiteration", pRestart);
-  document
-    .querySelector("#point3_container")
-    .addEventListener("animationiteration", pRestart);
-  document
-    .querySelector("#bomb_container")
-    .addEventListener("animationiteration", pRestart);
-  document
-    .querySelector("#heart_container")
-    .addEventListener("animationiteration", pRestart);
-}
-
-function startAllAnimations() {
-  document.querySelector("#point1_container").classList.add("falling");
-  document.querySelector("#point2_container").classList.add("falling");
-  document.querySelector("#point3_container").classList.add("falling");
-  document.querySelector("#bomb_container").classList.add("falling");
-  document.querySelector("#heart_container").classList.add("falling");
-
-  document.querySelector("#point1_container").classList.add("position1");
-  document.querySelector("#point2_container").classList.add("position2");
-  document.querySelector("#point3_container").classList.add("position3");
-  document.querySelector("#bomb_container").classList.add("position4");
-  document.querySelector("#heart_container").classList.add("position5");
-}
-
 function ready() {
-  console.log("JavaScript Kører");
-  document.querySelector("#btn_start").addEventListener("click", start);
-  document.querySelector("#btn_go_to_start").addEventListener("click", start);
-  document.querySelector("#btn_replay").addEventListener("click", start);
-  document.querySelector("#btn_level_complete").addEventListener("click", start);
+  console.log("JavaScript ready!");
+  document.querySelector("#btn_start").addEventListener("click", startGame);
+  document.querySelector("#btn_restart").addEventListener("click", startGame);
+  document.querySelector("#btn_go_to_start").addEventListener("click", showStartScreen);
 }
 
 function showGameScreen() {
+  // Skjul startskærm, game over og level complete
   document.querySelector("#start").classList.add("hidden");
   document.querySelector("#game_over").classList.add("hidden");
   document.querySelector("#level_complete").classList.add("hidden");
 }
 
 function showStartScreen() {
-  document.querySelector("start").classList.remove("hidden");
-  document.querySelector("game_over").classList.remove("hidden");
-  document.querySelector("level_complete").classList.remove("hidden");
+  // fjern hidden fra startskærm og tilføj til game over og level complete
+  document.querySelector("#start").classList.remove("hidden");
+  document.querySelector("#game_over").classList.add("hidden");
+  document.querySelector("#level_complete").classList.add("hidden");
 }
 
 function resetLives() {
+  // sæt lives til 3
   lives = 3;
-
+  //nulstil visning af liv (hjerte vi ser)
   document.querySelector("#heart1").classList.remove("broken_heart");
   document.querySelector("#heart2").classList.remove("broken_heart");
   document.querySelector("#heart3").classList.remove("broken_heart");
@@ -110,86 +39,120 @@ function resetLives() {
 }
 
 function resetPoints() {
+  // nulstil point
   points = 0;
+  // nulstil vising af point
   displayPoints();
 }
 
+function resetPoints() {
+  // nulstil point
+  points = 0;
+  // nulstil vising af point
+  displayPoints();
+}
+
+function startGame() {
+  resetLives();
+  resetPoints();
+  showGameScreen();
+
+  // Start baggrundsmusik
+  // start alle animationer
+  startAllAnimations();
+
+  // Registrer click
+  document.querySelector("#point1_container").addEventListener("click", clickPoint);
+  document.querySelector("#point2_container").addEventListener("click", clickPoint);
+  document.querySelector("#point3_container").addEventListener("click", clickPoint);
+  document.querySelector("#bomb_container").addEventListener("click", clickBomb);
+  document.querySelector("#heart_container").addEventListener("click", clickHeart);
+
+  // Registrer når bunden rammes
+  document.querySelector("#point1_container").addEventListener("animationiteration", pointRestart);
+  document.querySelector("#point2_container").addEventListener("animationiteration", pointRestart);
+  document.querySelector("#point3_container").addEventListener("animationiteration", pointRestart);
+}
+
+function startAllAnimations() {
+  // Start falling animationer
+  document.querySelector("#point1_container").classList.add("falling");
+  document.querySelector("#point2_container").classList.add("falling");
+  document.querySelector("#point3_container").classList.add("falling");
+  document.querySelector("#bomb_container").classList.add("falling");
+  document.querySelector("#heart_container").classList.add("falling");
+
+  // Sæt position klasser
+  document.querySelector("#point1_container").classList.add("position1");
+  document.querySelector("#point2_container").classList.add("position2");
+  document.querySelector("#point3_container").classList.add("position3");
+  document.querySelector("#bomb_container").classList.add("position4");
+  document.querySelector("#heart_container").classList.add("position5");
+}
+
+
+
+
+
+
+
+
 function clickPoint() {
   console.log("Click point");
-  document
-    .querySelector("#point1_container")
-    .removeEventListener("click", clickPoint);
-  document.querySelector("#point1_container").classList.add("paused");
-  document.querySelector("#point1_sprite").classList.add("zoom_out");
-  document
-    .querySelector("#point1_container")
-    .addEventListener("animationend", pointGone);
+  // Brug en point variabel i stedet for gentagne querySelectors
+  const point = this; // document.querySelector("#point_container");
+
+  // Forhindr gentagne clicks
+  point.removeEventListener("click", clickPoint);
+
+  // Stop point container
+  point.classList.add("paused");
+
+  // sæt forsvind-animation på sprite
+  point.querySelector("img").classList.add("zoom_out");
+
+  // når forsvind-animation er færdig: pointGone
+  point.addEventListener("animationend", pointGone);
+
+  // Giv point
   incrementPoints();
 }
-function clickPoint2() {
-  console.log("Click point2");
-  document
-    .querySelector("#point2_container")
-    .removeEventListener("click", clickPoint2);
-  document.querySelector("#point2_container").classList.add("paused");
-  document.querySelector("#point2_sprite").classList.add("zoom_out");
-  document
-    .querySelector("#point2_container")
-    .addEventListener("animationend", pointGone);
-  incrementPoints();
-}
-function clickPoint3() {
-  console.log("Click point3");
-  document
-    .querySelector("#point3_container")
-    .removeEventListener("click", clickPoint3);
-  document.querySelector("#point3_container").classList.add("paused");
-  document.querySelector("#point3_sprite").classList.add("zoom_out");
-  document
-    .querySelector("#point3_container")
-    .addEventListener("animationend", pointGone);
-  incrementPoints();
-}
+
 
 function pointGone() {
-  document
-    .querySelector("#point1_container")
-    .removeEventListener("animationend", pointGone);
-  incrementPoints();
-  pRestart.call(this);
+  console.log("point gone");
+  // Brug en point variabel i stedet for gentagne querySelectors
+  const point = this; //document.querySelector("#point1_container");
+  // fjern event der bringer os herind
+  point.removeEventListener("animationend", pointGone);
 
-  document.querySelector("#point1_sprite").classList.remove("zoom_out");
-  document.querySelector("#point1_container").classList.remove("paused");
-  document
-    .querySelector("#point1_container")
-    .addEventListener("click", clickPoint);
+  // fjern forsvind-animation på sprite
+  point.querySelector("img").classList.remove("zoom_out");
+
+  // fjern pause
+  point.classList.remove("paused");
+
+  pointRestart.call(this);
+
+  // gør det muligt at klikke på point igen
+  point.addEventListener("click", clickPoint);
 }
 
-function point2Gone() {
-  document
-    .querySelector("#point2_container")
-    .removeEventListener("animationend", point2Gone);
-  pRestart.call(this);
+function pointRestart() {
+  console.log("point restart");
+  const point = this;
 
-  document.querySelector("#point2_sprite").classList.remove("zoom_out");
-  document.querySelector("#point2_container").classList.remove("paused");
-  document
-    .querySelector("#point2_container")
-    .addEventListener("click", clickPoint2);
-}
+  // genstart falling animation
+  point.classList.remove("falling");
+  point.offsetWidth;
+  point.classList.add("falling");
 
-function point3Gone() {
-  document
-    .querySelector("#point3_container")
-    .removeEventListener("animationend", point3Gone);
+  // fjern alle positioner
+  point.classList.remove("position1", "position2", "position3", "position4", "position5");
 
-  pRestart.call(this);
-
-  document.querySelector("#point3_sprite").classList.remove("zoom_out");
-  document.querySelector("#point3_container").classList.remove("paused");
-  document
-    .querySelector("#point3_container")
-    .addEventListener("click", clickPoint3);
+  // sæt position til en ny klasse
+  const p = Math.ceil(Math.random() * 5);
+  point.classList.add(`position${p}`);
 }
 
 function clickBomb() {
@@ -253,18 +216,20 @@ function heartGone() {
 function incrementPoints() {
   console.log("Giv point");
   points++;
-  console.log("har nu " + points + " points");
+  console.log("har nu " + points + " point");
   displayPoints();
 
-  if (points >= 10) {
-    levelComplete();
+  if (points === 10) {
+      levelComplete();
   }
 }
 
 function displayPoints() {
-  console.log("Vis point");
+  console.log("vis point");
   document.querySelector("#point_count").textContent = points;
 }
+
+
 
 function decrementLives() {
   console.log("Mist liv");
@@ -295,43 +260,30 @@ function showIncrementedLives() {
 function gameOver() {
   console.log("Game Over");
   document.querySelector("#game_over").classList.remove("hidden");
-  document.querySelector("#btn_return").addEventListener("click", start);
-  stop();
+  stopGame();
 }
 
 function levelComplete() {
   console.log("Level Complete");
   document.querySelector("#level_complete").classList.remove("hidden");
-  document.querySelector("#btn_retry").addEventListener("click", start);
-  stop();
+  stopGame();
 }
 
 
-function stop() {
-  isGameRunning = false;
+function stopGame() {
+  // Stop animationer
   document.querySelector("#point1_container").classList.remove("falling");
   document.querySelector("#point2_container").classList.remove("falling");
   document.querySelector("#point3_container").classList.remove("falling");
   document.querySelector("#bomb_container").classList.remove("falling");
   document.querySelector("#heart_container").classList.remove("falling");
 
-  document
-    .querySelector("#point1_container")
-    .removeEventListener("click", clickPoint);
-  document
-    .querySelector("#point2_container")
-    .removeEventListener("click", clickPoint2);
-  document
-    .querySelector("#point3_container")
-    .removeEventListener("click", clickPoint3);
-  document
-    .querySelector("#bomb_container")
-    .removeEventListener("click", clickBomb);
-  document
-    .querySelector("#heart_container")
-    .removeEventListener("click", clickHeart);
-
-  document.querySelector("#time_sprite").classList.remove("shrink");
+  // Fjern click
+  document.querySelector("#point1_container").removeEventListener("click", clickPoint);
+  document.querySelector("#point2_container").removeEventListener("click", clickPoint);
+  document.querySelector("#point3_container").removeEventListener("click", clickPoint);
+  document.querySelector("#bomb_container").removeEventListener("click", clickBomb);
+  document.querySelector("#heart_container").removeEventListener("click", clickHeart);
 }
 
 function pRestart() {

@@ -42,11 +42,16 @@ h2 {
 
 #game_over {
   background-image: url(images/gameover.jpg);
+  z-index: 999;
+  width: 100%;
+  aspect-ratio: 16/9;
+  position: absolute;
+  background-size: 100%;
 }
 
 #level_complete {
   background-image: url(images/levelcomplete.jpg);
-  z-index: 2;
+  z-index: 999;
   width: 100%;
   aspect-ratio: 16/9;
   position: absolute;
@@ -55,7 +60,9 @@ h2 {
 
 .hidden,
 #game_over.hidden,
-#level_complete.hidden {
+#level_complete.hidden,
+#game.hidden,
+#start.hidden {
   display: none;
 }
 
@@ -94,6 +101,14 @@ h2 {
 
 #heart_sprite {
   width: 100%;
+}
+
+.active_heart {
+  filter: drop-shadow(0 0 2px yellow);
+}
+
+.broken_heart {
+  filter: grayscale(75%) blur(0.5px);
 }
 
 #bomb_container {
